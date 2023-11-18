@@ -22,12 +22,13 @@ jobs:
         run: npm install
 
       - name: Deploy Flagly UI
-        uses: appleboy/ssh-action@v1.0.0
+        uses: actions/checkout@v3
         with:
-          host: ${{ secrets.DIGITAL_OCEAN_DROPLET_IP_ADDRESS }}
-          username: ${{ secrets.DIGITAL_OCEAN_DROPLET_USERNAME }}
-          key: ${{ secrets.DIGITAL_OCEAN_DROPLET_PRIVATE_KEY }}
-          script: |
+          use-app-token: true
+          app-token: ${{ secrets.DIGITAL_OCEAN_TOKEN }}
+          organization: ${{ secrets.DIGITAL_OCEAN_DROPLET_ORG }}
+          droplet-id: ${{ secrets.DIGITAL_OCEAN_DROPTLET_IP_ADDRESS }}
+          commands: |
             cd app/
             pm2 stop app.js
             git pull origin master
