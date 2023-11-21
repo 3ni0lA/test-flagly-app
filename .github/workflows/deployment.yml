@@ -26,10 +26,8 @@ jobs:
         with:
           host: ${{ secrets.DIGITAL_OCEAN_DROPLET_IP_ADDRESS }}
           username: ${{ secrets.DIGITAL_OCEAN_DROPLET_USERNAME }}
-          key: ${{ secrets.DIGITAL_OCEAN_DROPLET_PRIVATE_KEY }}
+          key: ${{ secrets.DIGITAL_OCEAN_DROPLET_PUBLIC_KEY }}
           script: |
             cd app/
-            pm2 stop app.js
-            git pull origin master
-            npm install
-            pm2 start app.js
+            pm2 ls
+            pm2 restart app.js
