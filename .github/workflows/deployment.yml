@@ -36,4 +36,4 @@ jobs:
           )
 
           # Trigger the action on the Droplet using DigitalOcean API
-          curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer ${{ secrets.DIGITAL_OCEAN_TOKEN }}" -d "$PAYLOAD" "$API_ENDPOINT" 
+          curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer ${{ secrets.DIGITAL_OCEAN_DROPLET_TOKEN }}" -d "$PAYLOAD" "$API_ENDPOINT" 
