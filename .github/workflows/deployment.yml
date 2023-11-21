@@ -22,18 +22,15 @@ jobs:
         run: npm install
 
       - name: Deploy Flagly UI
-        run: |
-          # Set DigitalOcean API endpoint and path
-          API_ENDPOINT="https://api.digitalocean.com/v2/droplets/${{ secrets.DIGITAL_OCEAN_DROPLET_ID }}/actions"
+        uses: digitalocean/droplet-action@v2
+        with:
+          droplet_id: ${{ secrets.DIGITAL_OCEAN_DROPLET_ID }}
+          token: ${{ secrets.DIGITAL_OCEAN_TOKEN }}
+          type: remote
+          command: |
+            cd /app
+            pm2 stop app.js
+            git pull origin master
+            npm install
+            pm2 start app.js
           
-          # Build the JSON payload for the API request
-          PAYLOAD=$(cat <<EOF
-          {
-            "type": "remote",
-            "command": "cd /app && pm2 stop app.js && git pull origin master && npm install && pm2 start app.js"
-          }
-          EOF
-          )
-
-          # Trigger the action on the Droplet using DigitalOcean API
-          curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer ${{ secrets.DIGITAL_OCEAN_DROPLET_TOKEN }}" -d "$PAYLOAD" "$API_ENDPOINT" 
