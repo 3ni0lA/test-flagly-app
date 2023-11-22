@@ -15,22 +15,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Set Git Config for Pull
+        run: git config pull.rebase true
+  
       - name: Pull recent code changes
         run: git pull origin master
 
       - name: Install dependencies
         run: npm install
 
-      
       - name: Deploy Flagly UI
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.DIGITAL_OCEAN_DROPLET_IP_ADDRESS }}
-          username: ${{ secrets.DIGITAL_OCEAN_DROPLET_USERNAME }}
-          key: ${{ secrets.DIGITAL_OCEAN_DROPLET_PUBLIC_KEY }}
-          script: |
-            cd app/
-            pm2 ls
-            git pull origin master
-            pm2 restart app.js
+        env:
+          SSHPASS: ${{ secrets.DIGITAL_OCEAN_DROPLET_PASSWORD }}
+        run: |
+          cd app/
+          pm2 ls
+          
+          # Use sshpass to provide the password for the ssh command
+          sshpass -e ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -l ${{ secrets.DIGITAL_OCEAN_DROPLET_USERNAME }} ${{ secrets.DIGITAL_OCEAN_DROPLET_IP_ADDRESS }} 'cd app/ && git pull origin master && pm2 restart app.js'
           
