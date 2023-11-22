@@ -27,14 +27,14 @@ jobs:
       - name: Deploy Flagly UI
         uses: fifsky/ssh-action@master
         with:
-          host: ${{ secrets.DIGITAL_OCEAN_DROPLET_IP_ADDRESS }}
-          user: ${{ secrets.DIGITAL_OCEAN_DROPLET_USERNAME }}
-          pass: ${{ secrets.DIGITAL_OCEAN_DROPLET_PASSWORD }}
           command: |
             cd app/
             pm2 ls
             git pull origin master
             npm install
             pm2 restart app.js
+          host: ${{ secrets.DIGITAL_OCEAN_DROPLET_IP_ADDRESS }}
+          user: ${{ secrets.DIGITAL_OCEAN_DROPLET_USERNAME }}
+          pass: ${{ secrets.DIGITAL_OCEAN_DROPLET_PASSWORD }}
           
           
