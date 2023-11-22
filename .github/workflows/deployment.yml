@@ -29,8 +29,8 @@ jobs:
           SSHPASS: ${{ secrets.DIGITAL_OCEAN_DROPLET_PASSWORD }}
         run: |
           cd app/
-          pm2 ls
-          
+          /usr/local/bin/pm2  pm2 ls
+
           # Use sshpass to provide the password for the ssh command
           sshpass -e ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -l ${{ secrets.DIGITAL_OCEAN_DROPLET_USERNAME }} ${{ secrets.DIGITAL_OCEAN_DROPLET_IP_ADDRESS }} 'cd app/ && git pull origin master && pm2 restart app.js'
           
