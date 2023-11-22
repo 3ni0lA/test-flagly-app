@@ -16,12 +16,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Pull recent code changes
-        run: git pull origin master
+        run: git pull --rebase origin master
 
       - name: Install dependencies
         run: npm install
 
-      
       - name: Deploy Flagly UI
         uses: appleboy/ssh-action@v1.0.0
         with:
