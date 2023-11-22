@@ -21,13 +21,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      
       - name: Deploy Flagly UI
-        uses: fifsky/ssh-action@master
+        uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.DIGITAL_OCEAN_DROPLET_IP_ADDRESS }}
-          user: ${{ secrets.DIGITAL_OCEAN_DROPLET_USERNAME }}
+          username: ${{ secrets.DIGITAL_OCEAN_DROPLET_USERNAME }}
           key: ${{ secrets.DIGITAL_OCEAN_DROPLET_PUBLIC_KEY }}
-          command: |
+          script: |
             cd app/
             pm2 ls
             git pull origin master
