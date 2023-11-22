@@ -15,13 +15,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Set Git Config for Pull
+        run: git config pull.rebase true
+  
       - name: Pull recent code changes
         run: git pull origin master
 
       - name: Install dependencies
         run: npm install
 
-      
       - name: Deploy Flagly UI
         env:
           SSHPASS: ${{ secrets.DIGITAL_OCEAN_DROPLET_PASSWORD }}
