@@ -1,0 +1,37 @@
+name: Deploy Flagly Apps
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  deploy-flagly-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set Git Config for Pull
+        run: git config pull.rebase true
+  
+      - name: Pull recent code changes
+        run: git pull origin master
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Deploy Flagly UI
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.DIGITAL_OCEAN_DROPLET_IP_ADDRESS }}
+          username: ${{ secrets.DIGITAL_OCEAN_DROPLET_USERNAME }}
+          password: ${{ secrets.DIGITAL_OCEAN_DROPLET_PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd app/
+            pm2 ls
+            pm2 restart app.js
