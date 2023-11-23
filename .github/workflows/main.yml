@@ -34,4 +34,4 @@ jobs:
           script: |
             cd app/
             pm2 ls
-            pm2 restart app.js
+            pm2 restart app
