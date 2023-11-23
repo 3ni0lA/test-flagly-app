@@ -29,7 +29,7 @@ jobs:
         with:
           host: ${{ secrets.DIGITAL_OCEAN_DROPLET_IP_ADDRESS }}
           username: ${{ secrets.DIGITAL_OCEAN_DROPLET_USERNAME }}
-          key: ${{ secrets.DIGITAL_OCEAN_DROPLET_PRIVATE_KEY }}
+          key: ${{ secrets.DIGITAL_OCEAN_DROPLET_PASSOWRD }}
           port: ${{ secrets.PORT }}
           script: |
             cd app/
